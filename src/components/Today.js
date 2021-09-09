@@ -1,5 +1,7 @@
 export default function Today() {
     return (
-        <p>Today</p>
+        <main>
+            <p>Today</p>
+        </main>
     );
 }
