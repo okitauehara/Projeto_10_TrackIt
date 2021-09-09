@@ -1,25 +1,23 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-export default function SignUp() {
+export default function Login() {
     return (
-        <SignUpPage>
+        <LoginPage>
             <Logo src='https://i.ibb.co/hR0Xgyx/logo.png' alt='Logo TrackIt'></Logo>
             <Email type='text' placeholder='email'></Email>
             <Password type='password' placeholder='senha'></Password>
-            <Name type='text' placeholder='nome'></Name>
-            <Picture type='text' placeholder='foto'></Picture>
-            <Submit>Cadastrar</Submit>
-            <LoginText>
-                <Link to='/' style={{color: '#52b6ff'}}>
-                    Já tem uma conta? Faça login
+            <Submit>Entrar</Submit>
+            <SignUpText>
+                <Link to='/cadastro' style={{color: '#52b6ff'}}>
+                    Não tem uma conta? Cadastre-se
                 </Link>
-            </LoginText>
-        </SignUpPage>
+            </SignUpText>
+        </LoginPage>
     );
 }
 
-const SignUpPage = styled.section`
+const LoginPage = styled.section`
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -67,39 +65,6 @@ const Password = styled.input`
     }
 `;
 
-const Name = styled.input`
-    font-family: 'Lexend Deca', sans-serif;
-    font-size: 20px;
-    width: calc(100% - 70px);
-    height: 45px;
-    border: 1px solid #d4d4d4;
-    border-radius: 5px;
-    outline: none;
-
-    ::placeholder {
-        font-family: 'Lexend Deca', sans-serif;
-        font-size: 20px;
-        color: #dbdbdb;
-    }
-`;
-
-const Picture = styled.input`
-    font-family: 'Lexend Deca', sans-serif;
-    font-size: 20px;
-    width: calc(100% - 70px);
-    height: 45px;
-    margin: 5px 35px;
-    border: 1px solid #d4d4d4;
-    border-radius: 5px;
-    outline: none;
-
-    ::placeholder {
-        font-family: 'Lexend Deca', sans-serif;
-        font-size: 20px;
-        color: #dbdbdb;
-    }
-`;
-
 const Submit = styled.button`
     width: calc(100% - 70px);
     height: 45px;
@@ -112,6 +77,6 @@ const Submit = styled.button`
     border-radius: 5px;
 `;
 
-const LoginText = styled.p`
+const SignUpText = styled.p`
     font-size: 14px;
 `;

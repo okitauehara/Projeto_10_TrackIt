@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Home from './components/Home';
+import Login from './components/Login';
 import SignUp from './components/SignUp';
 import Today from './components/Today';
 import Habits from './components/Habits';
@@ -14,7 +14,7 @@ export default function App() {
 			<Navbar />
 			<Switch>
 				<Route path='/' exact>
-					<Home />
+					<Login />
 				</Route>
 				<Route path='/cadastro' exact>
 					<SignUp />

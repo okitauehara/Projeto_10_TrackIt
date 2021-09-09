@@ -47,7 +47,8 @@ const Footer = styled.footer`
     position: fixed;
     bottom: 0px;
     left: 0px;
-    z-index: 1;
+    z-index: 2;
+    visibility: hidden;
 `;
 
 const Habits = styled.span`
