@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Home from './components/Home';
+import SignUp from './components/SignUp';
+import Today from './components/Today';
+import Habits from './components/Habits';
+import History from './components/History';
+import Navbar from './components/Navbar';
+import Menu from './components/Menu';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+export default function App() {
+	return (
+		<BrowserRouter>
+			<Navbar />
+			<Switch>
+				<Route path='/' exact>
+					<Home />
+				</Route>
+				<Route path='/cadastro' exact>
+					<SignUp />
+				</Route>
+				<Route path='/hoje' exact>
+					<Today />
+				</Route>
+				<Route path='/habitos' exact>
+					<Habits />
+				</Route>
+				<Route path='/historico' exact>
+					<History />
+				</Route>
+			</Switch>
+			<Menu />
+		</BrowserRouter>
+	);
 }
 
-export default App;
