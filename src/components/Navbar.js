@@ -21,7 +21,6 @@ const Header = styled.header`
     justify-content: space-between;
     align-items: center;
     z-index: 2;
-    visibility: hidden;
 `;
 
 const Logo = styled.h1`

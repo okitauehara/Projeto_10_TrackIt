@@ -48,7 +48,6 @@ const Footer = styled.footer`
     bottom: 0px;
     left: 0px;
     z-index: 2;
-    visibility: hidden;
 `;
 
 const Habits = styled.span`

@@ -47,6 +47,7 @@ const Email = styled.input`
         font-family: 'Lexend Deca', sans-serif;
         font-size: 20px;
         color: #dbdbdb;
+        padding-left: 10px;
     }
 `;
 
@@ -64,6 +65,7 @@ const Password = styled.input`
         font-family: 'Lexend Deca', sans-serif;
         font-size: 20px;
         color: #dbdbdb;
+        padding-left: 10px;
     }
 `;
 
@@ -80,6 +82,7 @@ const Name = styled.input`
         font-family: 'Lexend Deca', sans-serif;
         font-size: 20px;
         color: #dbdbdb;
+        padding-left: 10px;
     }
 `;
 
@@ -97,6 +100,7 @@ const Picture = styled.input`
         font-family: 'Lexend Deca', sans-serif;
         font-size: 20px;
         color: #dbdbdb;
+        padding-left: 10px;
     }
 `;
 
