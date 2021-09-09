@@ -41,6 +41,36 @@ export default function Habits() {
                     ))}
                 </Weekdays>
             </HabitContainer>
+            <HabitContainer>
+                <Title>Ler 1 capítulo de livro</Title>
+                <RemoveHabit>
+                    <TrashOutline
+                        color={'#666666'} 
+                        height="15px"
+                        width="15px"
+                        />
+                </RemoveHabit>
+                <Weekdays>
+                    {days.map(weekday => (
+                        <Day>{weekday}</Day>
+                    ))}
+                </Weekdays>
+            </HabitContainer>
+            <HabitContainer>
+                <Title>Ler 1 capítulo de livro</Title>
+                <RemoveHabit>
+                    <TrashOutline
+                        color={'#666666'} 
+                        height="15px"
+                        width="15px"
+                        />
+                </RemoveHabit>
+                <Weekdays>
+                    {days.map(weekday => (
+                        <Day>{weekday}</Day>
+                    ))}
+                </Weekdays>
+            </HabitContainer>
         </main>
     );
 }
@@ -150,6 +180,7 @@ const HabitContainer = styled.div`
     border-radius: 5px;
     padding: 15px;
     position: relative;
+    margin-bottom: 10px;
 `;
 
 const Title = styled.h2`
