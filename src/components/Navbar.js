@@ -29,7 +29,7 @@ const Logo = styled.h1`
     font-weight: 400;
     color: #ffffff;
     margin-left: 18px;
-`
+`;
 
 const Profile = styled.img`
     width: 51px;
@@ -38,4 +38,4 @@ const Profile = styled.img`
     background-color: #ffffff;
     margin-right: 18px;
     object-fit: cover;
-`
+`;
