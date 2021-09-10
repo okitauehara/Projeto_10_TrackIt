@@ -2,6 +2,7 @@ import { postLogin } from "../service/API";
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 import { useState } from "react";
+import Loader from "react-loader-spinner";
 
 export default function Login({ setUser }) {
 
@@ -9,8 +10,10 @@ export default function Login({ setUser }) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
 
     function submitLogin() {
+        setLoading(true);
         const body = {
             email,
             password,
@@ -20,15 +23,17 @@ export default function Login({ setUser }) {
                 setUser(response.data)
                 history.push('/hoje')
             })
-            .catch(() => alert('Usuário e/ou senha incorretos'));
+            .catch(() => {
+                setLoading(false);
+                alert('Usuário e/ou senha incorretos')});
     }
 
     return (
         <LoginPage>
             <Logo src='https://i.ibb.co/hR0Xgyx/logo.png' alt='Logo TrackIt'></Logo>
-            <Input type='text' placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)}></Input>
-            <Input type='password' placeholder='senha' value={password} onChange={(e) => setPassword(e.target.value)}></Input>
-            <Submit onClick={submitLogin}>Entrar</Submit>
+            <Input state={loading} type='text' placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)}></Input>
+            <Input state={loading} type='password' placeholder='senha' value={password} onChange={(e) => setPassword(e.target.value)}></Input>
+            {!loading ? <Submit onClick={submitLogin}>Entrar</Submit> : <Submit><Loader type="ThreeDots" color="#ffffff" height={60} width={60} /></Submit>}
             <SignUpText>
                 <Link to='/cadastro' style={{color: '#52b6ff'}}>
                     Não tem uma conta? Cadastre-se
@@ -62,11 +67,13 @@ const Input = styled.input`
     border: 1px solid #d4d4d4;
     border-radius: 5px;
     outline: none;
+    pointer-events: ${props => props.state ? 'none' : 'all'};
+    background-color: ${props => props.state ? '#f2f2f2' : '#ffffff'};
 
     ::placeholder {
         font-family: 'Lexend Deca', sans-serif;
         font-size: 20px;
-        color: #dbdbdb;
+        color: ${props => props.state ? '#afafaf' : '#dbdbdb'};
         padding-left: 10px;
     }
 `;
@@ -81,6 +88,11 @@ const Submit = styled.button`
     font-size: 21px;
     border: none;
     border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: ${props => props.onClick === undefined ? '0.7' : '1'};
+    pointer-events: ${props => props.onClick === undefined ? 'none' : 'all'};
 `;
 
 const SignUpText = styled.p`
