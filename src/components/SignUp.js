@@ -2,6 +2,7 @@ import { postSignUp } from '../service/API'
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 import { useState } from 'react';
+import Loader from 'react-loader-spinner';
 
 export default function SignUp() {
 
@@ -11,9 +12,10 @@ export default function SignUp() {
     const [name, setName] = useState('');
     const [image, setImage] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
 
     function submitSignUp() {
-        
+        setLoading(true)
         const body = {
             email,
             name,
@@ -24,17 +26,19 @@ export default function SignUp() {
 
         postSignUp(body)
             .then(() => history.push('/'))
-            .catch(() => alert('Todos os campos devem ser preenchidos corretamente'))
+            .catch(() => {
+                setLoading(false)
+                alert('Todos os campos devem ser preenchidos corretamente')})
     }
 
     return (
         <SignUpPage>
             <Logo src='https://i.ibb.co/hR0Xgyx/logo.png' alt='Logo TrackIt'></Logo>
-            <Input type='text' placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)}></Input>
-            <Input type='password' placeholder='senha' value={password} onChange={(e) => setPassword(e.target.value)}></Input>
-            <Input type='text' placeholder='nome' value={name} onChange={(e) => setName(e.target.value)}></Input>
-            <Input type='text' placeholder='foto' value={image} onChange={(e) => setImage(e.target.value)}></Input>
-            <Submit onClick={submitSignUp}>Cadastrar</Submit>
+            <Input state={loading} type='text' placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)}></Input>
+            <Input state={loading} type='password' placeholder='senha' value={password} onChange={(e) => setPassword(e.target.value)}></Input>
+            <Input state={loading} type='text' placeholder='nome' value={name} onChange={(e) => setName(e.target.value)}></Input>
+            <Input state={loading} type='text' placeholder='foto' value={image} onChange={(e) => setImage(e.target.value)}></Input>
+            {!loading ? <Submit onClick={submitSignUp}>Cadastrar</Submit> : <Submit><Loader type="ThreeDots" color="#ffffff" height={60} width={60} /></Submit>}
             <LoginText>
                 <Link to='/' style={{color: '#52b6ff'}}>
                     Já tem uma conta? Faça login
@@ -68,11 +72,14 @@ const Input = styled.input`
     border: 1px solid #d4d4d4;
     border-radius: 5px;
     outline: none;
+    color: ${props => props.state ? '#afafaf' : '#000000'};
+    pointer-events: ${props => props.state ? 'none' : 'all'};
+    background-color: ${props => props.state ? '#f2f2f2' : '#ffffff'};
 
     ::placeholder {
         font-family: 'Lexend Deca', sans-serif;
         font-size: 20px;
-        color: #dbdbdb;
+        color: ${props => props.state ? '#afafaf' : '#dbdbdb'};
         padding-left: 10px;
     }
 `;
@@ -87,6 +94,11 @@ const Submit = styled.button`
     font-size: 21px;
     border: none;
     border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: ${props => props.onClick === undefined ? '0.7' : '1'};
+    pointer-events: ${props => props.onClick === undefined ? 'none' : 'all'};
 `;
 
 const LoginText = styled.p`

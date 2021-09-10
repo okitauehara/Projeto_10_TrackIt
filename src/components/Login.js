@@ -67,6 +67,7 @@ const Input = styled.input`
     border: 1px solid #d4d4d4;
     border-radius: 5px;
     outline: none;
+    color: ${props => props.state ? '#afafaf' : '#000000'};
     pointer-events: ${props => props.state ? 'none' : 'all'};
     background-color: ${props => props.state ? '#f2f2f2' : '#ffffff'};
 
