@@ -1,11 +1,17 @@
+import Navbar from './Navbar';
+import Menu from './Menu';
 import styled from "styled-components";
 
 export default function History() {
     return (
-        <main>
-            <HabitHistory>Histórico</HabitHistory>
-            <NoHistoryAlert>Em breve você poderá ver o histórico dos seus hábitos aqui!</NoHistoryAlert>
-        </main>
+        <>
+            <Navbar />
+                <main>
+                    <HabitHistory>Histórico</HabitHistory>
+                    <NoHistoryAlert>Em breve você poderá ver o histórico dos seus hábitos aqui!</NoHistoryAlert>
+                </main>
+            <Menu />
+        </>
     );
 }
 

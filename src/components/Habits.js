@@ -1,3 +1,5 @@
+import Navbar from './Navbar';
+import Menu from './Menu';
 import styled from "styled-components";
 import { TrashOutline } from 'react-ionicons'
 
@@ -6,72 +8,76 @@ export default function Habits() {
     const days = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
 
     return (
-        <main>
-            <PageHeader>
-                <MyHabits>Meus hábitos</MyHabits>
-                <AddHabit>+</AddHabit>
-            </PageHeader>
-            <Container>
-                <Name type='text' placeholder='nome do hábito'></Name>
-                <Weekdays>
-                    {days.map(weekday => (
-                        <Day>{weekday}</Day>
-                    ))}
-                </Weekdays>
-                <Actions>
-                    <Cancel>Cancelar</Cancel>
-                    <Save>Salvar</Save>
-                </Actions>
-            </Container>
-            <NoHabitsAlert>
-                Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
-            </NoHabitsAlert>
-            <HabitContainer>
-                <Title>Ler 1 capítulo de livro</Title>
-                <RemoveHabit>
-                    <TrashOutline
-                        color={'#666666'} 
-                        height="15px"
-                        width="15px"
-                        />
-                </RemoveHabit>
-                <Weekdays>
-                    {days.map(weekday => (
-                        <Day>{weekday}</Day>
-                    ))}
-                </Weekdays>
-            </HabitContainer>
-            <HabitContainer>
-                <Title>Ler 1 capítulo de livro</Title>
-                <RemoveHabit>
-                    <TrashOutline
-                        color={'#666666'} 
-                        height="15px"
-                        width="15px"
-                        />
-                </RemoveHabit>
-                <Weekdays>
-                    {days.map(weekday => (
-                        <Day>{weekday}</Day>
-                    ))}
-                </Weekdays>
-            </HabitContainer>
-            <HabitContainer>
-                <Title>Ler 1 capítulo de livro</Title>
-                <RemoveHabit>
-                    <TrashOutline
-                        color={'#666666'} 
-                        height="15px"
-                        width="15px"
-                        />
-                </RemoveHabit>
-                <Weekdays>
-                    {days.map(weekday => (
-                        <Day>{weekday}</Day>
-                    ))}
-                </Weekdays>
-            </HabitContainer>
-        </main>
+        <>
+        <Navbar />
+            <main>
+                <PageHeader>
+                    <MyHabits>Meus hábitos</MyHabits>
+                    <AddHabit>+</AddHabit>
+                </PageHeader>
+                <Container>
+                    <Name type='text' placeholder='nome do hábito'></Name>
+                    <Weekdays>
+                        {days.map((weekday, index) => (
+                            <Day key={index}>{weekday}</Day>
+                        ))}
+                    </Weekdays>
+                    <Actions>
+                        <Cancel>Cancelar</Cancel>
+                        <Save>Salvar</Save>
+                    </Actions>
+                </Container>
+                <NoHabitsAlert>
+                    Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
+                </NoHabitsAlert>
+                <HabitContainer>
+                    <Title>Ler 1 capítulo de livro</Title>
+                    <RemoveHabit>
+                        <TrashOutline
+                            color={'#666666'} 
+                            height="15px"
+                            width="15px"
+                            />
+                    </RemoveHabit>
+                    <Weekdays>
+                        {days.map((weekday, index) => (
+                            <Day key={index}>{weekday}</Day>
+                        ))}
+                    </Weekdays>
+                </HabitContainer>
+                <HabitContainer>
+                    <Title>Ler 1 capítulo de livro</Title>
+                    <RemoveHabit>
+                        <TrashOutline
+                            color={'#666666'} 
+                            height="15px"
+                            width="15px"
+                            />
+                    </RemoveHabit>
+                    <Weekdays>
+                        {days.map((weekday, index) => (
+                            <Day key={index}>{weekday}</Day>
+                        ))}
+                    </Weekdays>
+                </HabitContainer>
+                <HabitContainer>
+                    <Title>Ler 1 capítulo de livro</Title>
+                    <RemoveHabit>
+                        <TrashOutline
+                            color={'#666666'} 
+                            height="15px"
+                            width="15px"
+                            />
+                    </RemoveHabit>
+                    <Weekdays>
+                        {days.map((weekday, index) => (
+                            <Day key={index}>{weekday}</Day>
+                        ))}
+                    </Weekdays>
+                </HabitContainer>
+            </main>
+        <Menu />
+        </>
     );
 }
 

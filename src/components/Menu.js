@@ -8,7 +8,7 @@ export default function Menu() {
         <Footer>
             <Habits>
                 <Link to='/habitos' style={{textDecoration: 'none', color: '#52b6ff'}}>
-                Habitos
+                Hábitos
                 </Link>
             </Habits>
             <Today>
@@ -30,7 +30,7 @@ export default function Menu() {
             </Today>
             <History>
                 <Link to='/historico' style={{textDecoration: 'none', color: '#52b6ff'}}>
-                Historico
+                Histórico
                 </Link>
             </History>
         </Footer>

@@ -1,54 +1,60 @@
+import Navbar from './Navbar';
+import Menu from './Menu';
 import styled from "styled-components";
 import { Checkbox } from 'react-ionicons'
 
 export default function Today() {
     return (
-        <main>
-            <Date>Segunda, 17/05</Date>
-            <Progress>Nenhum hábito concluído ainda</Progress>
-            <Habit>
-                <TextInfo>
-                    <Title>Ler 1 capítulo de livro</Title>
-                    <Sequence>Sequência atual: 3 dias</Sequence>
-                    <Record>Seu recorde: 5 dias</Record>
-                </TextInfo>
-                <Check>
-                    <Checkbox
-                        color={'#ebebeb'} 
-                        height="69px"
-                        width="69px"
-                        />
-                </Check>
-            </Habit>
-            <Habit>
-                <TextInfo>
-                    <Title>Ler 1 capítulo de livro</Title>
-                    <Sequence>Sequência atual: 3 dias</Sequence>
-                    <Record>Seu recorde: 5 dias</Record>
-                </TextInfo>
-                <Check>
-                    <Checkbox
-                        color={'#ebebeb'} 
-                        height="69px"
-                        width="69px"
-                        />
-                </Check>
-            </Habit>
-            <Habit>
-                <TextInfo>
-                    <Title>Ler 1 capítulo de livro</Title>
-                    <Sequence>Sequência atual: 3 dias</Sequence>
-                    <Record>Seu recorde: 5 dias</Record>
-                </TextInfo>
-                <Check>
-                    <Checkbox
-                        color={'#ebebeb'} 
-                        height="69px"
-                        width="69px"
-                        />
-                </Check>
-            </Habit>
-        </main>
+        <>
+            <Navbar />
+                <main>
+                    <Date>Segunda, 17/05</Date>
+                    <Progress>Nenhum hábito concluído ainda</Progress>
+                    <Habit>
+                        <TextInfo>
+                            <Title>Ler 1 capítulo de livro</Title>
+                            <Sequence>Sequência atual: 3 dias</Sequence>
+                            <Record>Seu recorde: 5 dias</Record>
+                        </TextInfo>
+                        <Check>
+                            <Checkbox
+                                color={'#ebebeb'} 
+                                height="69px"
+                                width="69px"
+                                />
+                        </Check>
+                    </Habit>
+                    <Habit>
+                        <TextInfo>
+                            <Title>Ler 1 capítulo de livro</Title>
+                            <Sequence>Sequência atual: 3 dias</Sequence>
+                            <Record>Seu recorde: 5 dias</Record>
+                        </TextInfo>
+                        <Check>
+                            <Checkbox
+                                color={'#ebebeb'} 
+                                height="69px"
+                                width="69px"
+                                />
+                        </Check>
+                    </Habit>
+                    <Habit>
+                        <TextInfo>
+                            <Title>Ler 1 capítulo de livro</Title>
+                            <Sequence>Sequência atual: 3 dias</Sequence>
+                            <Record>Seu recorde: 5 dias</Record>
+                        </TextInfo>
+                        <Check>
+                            <Checkbox
+                                color={'#ebebeb'} 
+                                height="69px"
+                                width="69px"
+                                />
+                        </Check>
+                    </Habit>
+                </main>
+            <Menu />
+        </>
     );
 }
 

@@ -5,8 +5,8 @@ export default function Login() {
     return (
         <LoginPage>
             <Logo src='https://i.ibb.co/hR0Xgyx/logo.png' alt='Logo TrackIt'></Logo>
-            <Email type='text' placeholder='email'></Email>
-            <Password type='password' placeholder='senha'></Password>
+            <Input type='text' placeholder='email'></Input>
+            <Input type='password' placeholder='senha'></Input>
             <Submit>Entrar</Submit>
             <SignUpText>
                 <Link to='/cadastro' style={{color: '#52b6ff'}}>
@@ -31,30 +31,12 @@ const Logo = styled.img`
     height: 180px;
 `;
 
-const Email = styled.input`
+const Input = styled.input`
     font-family: 'Lexend Deca', sans-serif;
     font-size: 20px;
     width: calc(100% - 70px);
     height: 45px;
-    margin: 35px 35px 0px 35px;
-    border: 1px solid #d4d4d4;
-    border-radius: 5px;
-    outline: none;
-
-    ::placeholder {
-        font-family: 'Lexend Deca', sans-serif;
-        font-size: 20px;
-        color: #dbdbdb;
-        padding-left: 10px;
-    }
-`;
-
-const Password = styled.input`
-    font-family: 'Lexend Deca', sans-serif;
-    font-size: 20px;
-    width: calc(100% - 70px);
-    height: 45px;
-    margin: 5px 35px;
+    margin-bottom: 5px;
     border: 1px solid #d4d4d4;
     border-radius: 5px;
     outline: none;
