@@ -1,15 +1,37 @@
+import { postSignUp } from '../service/API'
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useState } from 'react';
 
 export default function SignUp() {
+
+    const history = useHistory();
+
+    const [email, setEmail] = useState('');
+    const [name, setName] = useState('');
+    const [image, setImage] = useState('');
+    const [password, setPassword] = useState('');
+
+    function submitSignUp() {
+        const body = {
+            email,
+            name,
+            image,
+            password,
+        }
+        postSignUp(body)
+            .then(() => history.push('/'))
+            .catch(alert('Todos os campos devem ser preenchidos corretamente'))
+    }
+
     return (
         <SignUpPage>
             <Logo src='https://i.ibb.co/hR0Xgyx/logo.png' alt='Logo TrackIt'></Logo>
-            <Input type='text' placeholder='email'></Input>
-            <Input type='password' placeholder='senha'></Input>
-            <Input type='text' placeholder='nome'></Input>
-            <Input type='text' placeholder='foto'></Input>
-            <Submit>Cadastrar</Submit>
+            <Input type='text' placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)}></Input>
+            <Input type='password' placeholder='senha' value={password} onChange={(e) => setPassword(e.target.value)}></Input>
+            <Input type='text' placeholder='nome' value={name} onChange={(e) => setName(e.target.value)}></Input>
+            <Input type='text' placeholder='foto' value={image} onChange={(e) => setImage(e.target.value)}></Input>
+            <Submit onClick={submitSignUp}>Cadastrar</Submit>
             <LoginText>
                 <Link to='/' style={{color: '#52b6ff'}}>
                     Já tem uma conta? Faça login
