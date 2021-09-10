@@ -1,13 +1,34 @@
+import { postLogin } from "../service/API";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useState } from "react";
 
-export default function Login() {
+export default function Login({ setUser }) {
+
+    const history = useHistory()
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    function submitLogin() {
+        const body = {
+            email,
+            password,
+        }
+        postLogin(body)
+            .then(response => {
+                setUser(response.data)
+                history.push('/hoje')
+            })
+            .catch(() => alert('Usuário e/ou senha incorretos'));
+    }
+
     return (
         <LoginPage>
             <Logo src='https://i.ibb.co/hR0Xgyx/logo.png' alt='Logo TrackIt'></Logo>
-            <Input type='text' placeholder='email'></Input>
-            <Input type='password' placeholder='senha'></Input>
-            <Submit>Entrar</Submit>
+            <Input type='text' placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)}></Input>
+            <Input type='password' placeholder='senha' value={password} onChange={(e) => setPassword(e.target.value)}></Input>
+            <Submit onClick={submitLogin}>Entrar</Submit>
             <SignUpText>
                 <Link to='/cadastro' style={{color: '#52b6ff'}}>
                     Não tem uma conta? Cadastre-se
@@ -29,6 +50,7 @@ const LoginPage = styled.section`
 const Logo = styled.img`
     width: 180px;
     height: 180px;
+    margin-bottom: 30px;
 `;
 
 const Input = styled.input`

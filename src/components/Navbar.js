@@ -1,10 +1,15 @@
 import styled from "styled-components";
+import { useContext } from "react";
+import UserContext from "../contexts/UserContext";
 
 export default function Navbar() {
+
+    const user = useContext(UserContext);
+
     return (
         <Header>
             <Logo>TrackIt</Logo>
-            <Profile src="http://www.rachegebran.com.br/wp-content/uploads/perfil.jpg"></Profile>
+            <Profile src={user.image}></Profile>
         </Header>
     );
 }

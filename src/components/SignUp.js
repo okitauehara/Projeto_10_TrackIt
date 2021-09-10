@@ -13,15 +13,18 @@ export default function SignUp() {
     const [password, setPassword] = useState('');
 
     function submitSignUp() {
+        
         const body = {
             email,
             name,
             image,
             password,
         }
+
+
         postSignUp(body)
             .then(() => history.push('/'))
-            .catch(alert('Todos os campos devem ser preenchidos corretamente'))
+            .catch(() => alert('Todos os campos devem ser preenchidos corretamente'))
     }
 
     return (
