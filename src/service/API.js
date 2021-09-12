@@ -12,7 +12,19 @@ function postLogin(body) {
     return promise;
 }
 
+function getUserHabits(config) {
+    const promise = axios.get(`${URL_BASE}/habits`, config);
+    return promise;
+}
+
+function postHabit(body) {
+    const promise = axios.post(`${URL_BASE}/habits`, body);
+    return promise;
+}
+
 export {
     postSignUp,
     postLogin,
+    getUserHabits,
+    postHabit,
 }

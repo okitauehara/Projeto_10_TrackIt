@@ -1,80 +1,81 @@
 import Navbar from './Navbar';
 import Menu from './Menu';
 import styled from "styled-components";
-import { TrashOutline } from 'react-ionicons'
+import UserContext from '../contexts/UserContext';
+import { useContext, useEffect, useState } from 'react';
+import { getUserHabits } from '../service/API';
+import CreateHabit from './CreateHabit';
+import HabitsList from './HabitsList';
 
 export default function Habits() {
 
-    const days = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
+    const user = useContext(UserContext);
+    const weekdays = [
+        {
+            day: 'D',
+            dayID: 0,
+            isAvailable: true
+        },
+        {
+            day: 'S',
+            dayID: 1,
+            isAvailable: true
+        },
+        {
+            day: 'T',
+            dayID: 2,
+            isAvailable: true
+        },
+        {
+            day: 'Q',
+            dayID: 3,
+            isAvailable: true
+        },
+        {
+            day: 'Q',
+            dayID: 4,
+            isAvailable: true
+        },
+        {
+            day: 'S',
+            dayID: 5,
+            isAvailable: true
+        },
+        {
+            day: 'S',
+            dayID: 6,
+            isAvailable: true
+        },
+    ];
 
+    const [habits, setHabits] = useState([]);
+    const [container, setContainer] = useState(false);
+
+    useEffect(() => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${user.token}`
+            }
+        }
+        getUserHabits(config)
+            .then((response) => setHabits(response.data))
+            .catch(() => console.error);
+    }, [user.token])
+    
     return (
         <>
         <Navbar />
             <main>
                 <PageHeader>
                     <MyHabits>Meus hábitos</MyHabits>
-                    <AddHabit>+</AddHabit>
+                    <AddHabit onClick={() => setContainer(true)}>+</AddHabit>
                 </PageHeader>
-                <Container>
-                    <Name type='text' placeholder='nome do hábito'></Name>
-                    <Weekdays>
-                        {days.map((weekday, index) => (
-                            <Day key={index}>{weekday}</Day>
-                        ))}
-                    </Weekdays>
-                    <Actions>
-                        <Cancel>Cancelar</Cancel>
-                        <Save>Salvar</Save>
-                    </Actions>
-                </Container>
-                <NoHabitsAlert>
-                    Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
-                </NoHabitsAlert>
-                <HabitContainer>
-                    <Title>Ler 1 capítulo de livro</Title>
-                    <RemoveHabit>
-                        <TrashOutline
-                            color={'#666666'} 
-                            height="15px"
-                            width="15px"
-                            />
-                    </RemoveHabit>
-                    <Weekdays>
-                        {days.map((weekday, index) => (
-                            <Day key={index}>{weekday}</Day>
-                        ))}
-                    </Weekdays>
-                </HabitContainer>
-                <HabitContainer>
-                    <Title>Ler 1 capítulo de livro</Title>
-                    <RemoveHabit>
-                        <TrashOutline
-                            color={'#666666'} 
-                            height="15px"
-                            width="15px"
-                            />
-                    </RemoveHabit>
-                    <Weekdays>
-                        {days.map((weekday, index) => (
-                            <Day key={index}>{weekday}</Day>
-                        ))}
-                    </Weekdays>
-                </HabitContainer>
-                <HabitContainer>
-                    <Title>Ler 1 capítulo de livro</Title>
-                    <RemoveHabit>
-                        <TrashOutline
-                            color={'#666666'} 
-                            height="15px"
-                            width="15px"
-                            />
-                    </RemoveHabit>
-                    <Weekdays>
-                        {days.map((weekday, index) => (
-                            <Day key={index}>{weekday}</Day>
-                        ))}
-                    </Weekdays>
-                </HabitContainer>
+
+                <CreateHabit weekdays={weekdays} container={container} setContainer={setContainer}/>
+
+                {habits.length === 0 ? <NoHabitsAlert>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</NoHabitsAlert> : ''}
+
+                <HabitsList habits={habits} weekdays={weekdays}/>
             </main>
         <Menu />
         </>
@@ -103,100 +104,7 @@ const AddHabit = styled.button`
     font-size: 27px;
 `;
 
-const Container = styled.div`
-    width: 100%;
-    height: 180px;
-    display: flex;
-    flex-direction: column;
-    background-color: #ffffff;
-    padding: 20px;
-    margin-bottom: 30px;
-`;
-
-const Name = styled.input`
-    height: 45px;
-    border: 1px solid #d4d4d4;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    outline: none;
-
-    ::placeholder {
-        font-family: 'Lexend Deca', sans-serif;
-        font-size: 20px;
-        color: #dbdbdb;
-        padding-left: 10px;
-    }
-`;
-
-const Weekdays = styled.div`
-    display: flex;
-    flex-direction: row;
-`;
-
-const Day = styled.button`
-    width: 30px;
-    height: 30px;
-    border: 1px solid #d4d4d4;
-    border-radius: 5px;
-    font-family: 'Lexend Deca', sans-serif;
-    font-size: 20px;
-    color: #dbdbdb;
-    background-color: #ffffff;
-    margin-right: 5px;
-`;
-
-const Actions = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 30px;
-`;
-
-const Cancel = styled.button`
-    width: 84px;
-    height: 35px;
-    background-color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    font-family: 'Lexend Deca', sans-serif;
-    font-size: 16px;
-    color: #52b6ff;
-`;
-
-const Save = styled.button`
-    width: 84px;
-    height: 35px;
-    background-color: #52b6ff;
-    border: none;
-    border-radius: 5px;
-    font-family: 'Lexend Deca', sans-serif;
-    font-size: 16px;
-    color: #ffffff;
-`;
-
 const NoHabitsAlert = styled.p`
     font-size: 18px;
     color: #666666;
-`;
-
-const HabitContainer = styled.div`
-    width: 100%;
-    height: auto;
-    background-color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    padding: 15px;
-    position: relative;
-    margin-bottom: 10px;
-`;
-
-const Title = styled.h2`
-    font-size: 20px;
-    color: #666666;
-    margin-bottom: 10px;
-`;
-
-const RemoveHabit = styled.div`
-    position: absolute;
-    top: 15px;
-    right: 15px;
 `;
