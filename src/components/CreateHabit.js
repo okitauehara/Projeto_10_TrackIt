@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { getUserHabits, postHabit } from "../service/API";
 import Loader from "react-loader-spinner";
 import UserContext from "../contexts/UserContext";
+import Swal from "sweetalert2";
 
 export default function CreateHabit({ weekdays, container, setContainer, setHabits }) {
 
@@ -19,16 +20,11 @@ export default function CreateHabit({ weekdays, container, setContainer, setHabi
             name,
             days,
         }
-        const config = {
-            headers: {
-                Authorization: `Bearer ${user.token}`
-            }
-        }
 
         if (!!name && days.length !== 0) {
-            postHabit(body, config)
+            postHabit(body, user.token)
             .then(() => {
-                getUserHabits(config)
+                getUserHabits(user.token)
                     .then((response) => setHabits(response.data))
                     .catch(() => console.error);
                 setName('');
@@ -39,11 +35,19 @@ export default function CreateHabit({ weekdays, container, setContainer, setHabi
             })
             .catch(() => {
                 setLoading(false);
-                alert("Preencha todos os campos corretamente")
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ops...',
+                    text: 'Preencha todos os campos corretamente',
+                  })
             })
         } else {
             setLoading(false);
-            alert("Dê um nome para o hábito e selecione ao menos um dia")
+            Swal.fire({
+                icon: 'error',
+                title: 'Existem campos vazios!',
+                text: 'Dê um nome para o hábito e selecione ao menos um dia',
+              })
         }
     }
 

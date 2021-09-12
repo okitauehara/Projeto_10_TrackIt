@@ -52,12 +52,7 @@ export default function Habits() {
     const [container, setContainer] = useState(false);
 
     useEffect(() => {
-        const config = {
-            headers: {
-                Authorization: `Bearer ${user.token}`
-            }
-        }
-        getUserHabits(config)
+        getUserHabits(user.token)
             .then((response) => setHabits(response.data))
             .catch(() => console.error);
     }, [user.token]);
@@ -75,7 +70,7 @@ export default function Habits() {
 
                 {habits.length === 0 ? <NoHabitsAlert>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</NoHabitsAlert> : ''}
 
-                <HabitsList habits={habits} weekdays={weekdays}/>
+                <HabitsList habits={habits} setHabits={setHabits} weekdays={weekdays}/>
             </main>
         <Menu />
         </>

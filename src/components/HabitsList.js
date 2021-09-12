@@ -1,8 +1,13 @@
 import styled from "styled-components";
-import { TrashOutline } from 'react-ionicons'
+import { TrashOutline } from 'react-ionicons';
+import { deleteHabit } from "../service/API";
+import UserContext from "../contexts/UserContext";
+import { useContext } from "react";
+import Swal from "sweetalert2";
 
-export default function HabitsList({ habits }) {
+export default function HabitsList({ habits, setHabits }) {
 
+    const user = useContext(UserContext);
     const weekdays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
 
     return (
@@ -10,7 +15,10 @@ export default function HabitsList({ habits }) {
             {habits.map((habit, index) => 
             <Habit
                 habits={habits}
+                setHabits={setHabits}
                 weekdays={weekdays}
+                user={user}
+                deleteHabit={deleteHabit}
                 name={habit.name}
                 selectedDays={habit.days}
                 key={index} id={habit.id}
@@ -20,11 +28,37 @@ export default function HabitsList({ habits }) {
     );
 }
 
-function Habit ({ weekdays, name, selectedDays, id, check}) {
+function Habit ({ habits, setHabits, weekdays, user, deleteHabit, name, selectedDays, id, check}) {
+
+    function deleteConfirmation() {
+        Swal.fire({
+            title: 'Deseja excluir o hábito?',
+            text: 'Não será possível reverter esta ação',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                let removed = habits.indexOf(habits[check]);
+                habits.splice(removed, 1);
+                setHabits([...habits]);
+                deleteHabit(user.token, id)
+                    .then(() =>
+                    Swal.fire(
+                        'Sucesso!',
+                        'Este hábito foi removido com sucesso',
+                        'success'
+                      ));
+            }
+          })
+    }
+
     return (
     <HabitContainer key={id}>
         <Title>{name}</Title>
-        <RemoveHabit>
+        <RemoveHabit onClick={deleteConfirmation}>
             <TrashOutline
                 color={'#666666'} 
                 height="15px"

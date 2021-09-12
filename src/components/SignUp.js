@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 import { useState } from 'react';
 import Loader from 'react-loader-spinner';
+import Swal from 'sweetalert2';
 
 export default function SignUp() {
 
@@ -28,7 +29,11 @@ export default function SignUp() {
             .then(() => history.push('/'))
             .catch(() => {
                 setLoading(false)
-                alert('Todos os campos devem ser preenchidos corretamente')})
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Cadastro Inválido',
+                    text: 'Todos os campos devem ser preenchidos corretamente',
+                  })})
     }
 
     return (

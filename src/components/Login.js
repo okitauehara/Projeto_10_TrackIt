@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 import { useState } from "react";
 import Loader from "react-loader-spinner";
+import Swal from 'sweetalert2'
 
 export default function Login({ setUser }) {
 
@@ -25,7 +26,11 @@ export default function Login({ setUser }) {
             })
             .catch(() => {
                 setLoading(false);
-                alert('Usuário e/ou senha incorretos')});
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ops...',
+                    text: 'Usuário e/ou senha incorretos!',
+                  })});
     }
 
     return (

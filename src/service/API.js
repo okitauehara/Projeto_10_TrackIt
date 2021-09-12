@@ -12,16 +12,34 @@ function postLogin(body) {
     return promise;
 }
 
-function getUserHabits(config) {
+function getUserHabits(token) {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
     const promise = axios.get(`${URL_BASE}/habits`, config);
     return promise;
 }
 
-function postHabit(body, config) {
+function postHabit(body, token) {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
     const promise = axios.post(`${URL_BASE}/habits`, body, config);
     return promise;
+}
 
-    
+function deleteHabit(token, id) {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const promise = axios.delete(`${URL_BASE}/habits/${id}`, config);
+    return promise;
 }
 
 export {
@@ -29,4 +47,5 @@ export {
     postLogin,
     getUserHabits,
     postHabit,
+    deleteHabit,
 }
