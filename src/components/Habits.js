@@ -60,8 +60,8 @@ export default function Habits() {
         getUserHabits(config)
             .then((response) => setHabits(response.data))
             .catch(() => console.error);
-    }, [user.token])
-    
+    }, [user.token]);
+
     return (
         <>
         <Navbar />
@@ -71,7 +71,7 @@ export default function Habits() {
                     <AddHabit onClick={() => setContainer(true)}>+</AddHabit>
                 </PageHeader>
 
-                <CreateHabit weekdays={weekdays} container={container} setContainer={setContainer}/>
+                <CreateHabit weekdays={weekdays} container={container} setContainer={setContainer} setHabits={setHabits}/>
 
                 {habits.length === 0 ? <NoHabitsAlert>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</NoHabitsAlert> : ''}
 

@@ -1,26 +1,51 @@
 import styled from "styled-components";
 import { TrashOutline } from 'react-ionicons'
 
-export default function HabitsList({ habits, weekdays }) {
+export default function HabitsList({ habits }) {
+
+    const weekdays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
+
     return (
         <>
-            {habits.map((habit, index) => {
-                <HabitContainer key={index}>
-                    <Title>{habit.name}</Title>
-                    <RemoveHabit>
-                        <TrashOutline
-                            color={'#666666'} 
-                            height="15px"
-                            width="15px"
-                            />
-                    </RemoveHabit>
-                    <Weekdays>
-                        {habit.days.map((weekday, index) => (
-                            weekday === weekdays.dayID ? <Day state={'selected'} key={index}>{weekday}</Day> : <Day key={index}>{weekday}</Day>
-                        ))}
-                    </Weekdays>
-                </HabitContainer>})}
+            {habits.map((habit, index) => 
+            <Habit
+                habits={habits}
+                weekdays={weekdays}
+                name={habit.name}
+                selectedDays={habit.days}
+                key={index} id={habit.id}
+                check={index}/>)}
+
         </>
+    );
+}
+
+function Habit ({ weekdays, name, selectedDays, id, check}) {
+    return (
+    <HabitContainer key={id}>
+        <Title>{name}</Title>
+        <RemoveHabit>
+            <TrashOutline
+                color={'#666666'} 
+                height="15px"
+                width="15px"
+                />
+        </RemoveHabit>
+        <Weekdays>
+            {weekdays.map((weekday, index) =>
+            <Weekday
+                weekday={weekday}
+                key={index}
+                check={index}
+                selectedDays={selectedDays}/>)}
+        </Weekdays>
+    </HabitContainer>
+    );
+}
+
+function Weekday({ weekday, check, selectedDays }) {
+    return (
+        <Day selected={selectedDays.indexOf(check) !== -1} >{weekday}</Day>
     );
 }
 
@@ -36,7 +61,9 @@ const HabitContainer = styled.div`
 `;
 
 const Title = styled.h2`
+    width: calc(100% - 30px);
     font-size: 20px;
+    line-height: 25px;
     color: #666666;
     margin-bottom: 10px;
 `;
@@ -45,6 +72,7 @@ const RemoveHabit = styled.div`
     position: absolute;
     top: 15px;
     right: 15px;
+    padding: 5px;
 `;
 
 const Weekdays = styled.div`
@@ -55,11 +83,11 @@ const Weekdays = styled.div`
 const Day = styled.button`
     width: 30px;
     height: 30px;
-    border: ${props => props.state === 'selected' ? '1px solid #cfcfcf' : '1px solid #d4d4d4'};
+    border: ${props => props.selected ? '1px solid #cfcfcf' : '1px solid #d4d4d4'};
     border-radius: 5px;
     font-family: 'Lexend Deca', sans-serif;
     font-size: 20px;
-    color: ${props => props.state === 'selected' ? '#ffffff' : '#dbdbdb'};
-    background-color: ${props => props.state === 'selected' ? '#cfcfcf' : '#ffffff'};
+    color: ${props => props.selected ? '#ffffff' : '#dbdbdb'};
+    background-color: ${props => props.selected ? '#cfcfcf' : '#ffffff'};
     margin-right: 5px;
 `;

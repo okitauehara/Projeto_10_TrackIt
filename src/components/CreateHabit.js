@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import styled from "styled-components";
-import { postHabit } from "../service/API";
+import { getUserHabits, postHabit } from "../service/API";
 import Loader from "react-loader-spinner";
+import UserContext from "../contexts/UserContext";
 
-export default function CreateHabit({ weekdays, container, setContainer }) {
+export default function CreateHabit({ weekdays, container, setContainer, setHabits }) {
+
+    const user = useContext(UserContext);
 
     const [name, setName] = useState('');
     const [days, setDays] = useState([]);
@@ -11,19 +14,52 @@ export default function CreateHabit({ weekdays, container, setContainer }) {
     const [selectedDays, setSelectedDays] = useState(weekdays);
 
     function addHabit() {
-        // setLoading(true);
+        setLoading(true);
         const body = {
             name,
             days,
         }
-        console.log(body, selectedDays)
+        const config = {
+            headers: {
+                Authorization: `Bearer ${user.token}`
+            }
+        }
+
+        if (!!name && days.length !== 0) {
+            postHabit(body, config)
+            .then(() => {
+                getUserHabits(config)
+                    .then((response) => setHabits(response.data))
+                    .catch(() => console.error);
+                setName('');
+                setDays('');
+                setSelectedDays(weekdays);
+                setContainer(false);
+                setLoading(false);
+            })
+            .catch(() => {
+                setLoading(false);
+                alert("Preencha todos os campos corretamente")
+            })
+        } else {
+            setLoading(false);
+            alert("Dê um nome para o hábito e selecione ao menos um dia")
+        }
     }
 
     return (
-        <Container state={container}>
-            <Name state={loading} type='text' placeholder='nome do hábito' value={name} onChange={(e) => setName(e.target.value)}></Name>
+        <Container state={container} >
+            <Name
+                state={loading}
+                type='text'
+                placeholder='nome do hábito'
+                value={name}
+                onChange={(e) => setName(e.target.value)}></Name>
             <Weekdays state={loading}>
-                <RenderDays selectedDays={selectedDays} days={days} setDays={setDays}/>
+                <RenderDays
+                    selectedDays={selectedDays}
+                    days={days}
+                    setDays={setDays}/>
             </Weekdays>
             <Actions>
                 <Cancel onClick={() => setContainer(false)}>Cancelar</Cancel>
@@ -65,6 +101,7 @@ const Container = styled.div`
 `;
 
 const Name = styled.input`
+    font-family: 'Lexend Deca', sans-serif;
     height: 45px;
     border: 1px solid #d4d4d4;
     border-radius: 5px;
@@ -128,4 +165,6 @@ const Save = styled.button`
     font-family: 'Lexend Deca', sans-serif;
     font-size: 16px;
     color: #ffffff;
+    opacity: ${props => props.onClick === undefined ? '0.7' : '1'};
+    pointer-events: ${props => props.onClick === undefined ? 'none' : 'all'};
 `;

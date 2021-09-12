@@ -17,9 +17,11 @@ function getUserHabits(config) {
     return promise;
 }
 
-function postHabit(body) {
-    const promise = axios.post(`${URL_BASE}/habits`, body);
+function postHabit(body, config) {
+    const promise = axios.post(`${URL_BASE}/habits`, body, config);
     return promise;
+
+    
 }
 
 export {
