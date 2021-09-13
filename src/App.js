@@ -10,9 +10,11 @@ import UserContext from './contexts/UserContext';
 export default function App() {
 
 	const [user, setUser] = useState(null);
+	const [todayProgress, setTodayProgress] = useState(0);
+	const [todayHabits, setTodayHabits] = useState([]);
 
 	return (
-		<UserContext.Provider value={user}>
+		<UserContext.Provider value={{user, todayProgress, setTodayProgress, todayHabits, setTodayHabits}}>
 			<BrowserRouter>
 				<Switch>
 					<Route path='/' exact>

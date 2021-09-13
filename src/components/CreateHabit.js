@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 
 export default function CreateHabit({ weekdays, container, setContainer, setHabits }) {
 
-    const user = useContext(UserContext);
+    const { user } = useContext(UserContext);
 
     const [name, setName] = useState('');
     const [days, setDays] = useState([]);

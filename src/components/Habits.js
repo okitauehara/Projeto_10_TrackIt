@@ -9,7 +9,7 @@ import HabitsList from './HabitsList';
 
 export default function Habits() {
 
-    const user = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const weekdays = [
         {
             day: 'D',

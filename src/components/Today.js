@@ -1,60 +1,98 @@
 import Navbar from './Navbar';
 import Menu from './Menu';
 import styled from "styled-components";
-import { Checkbox } from 'react-ionicons'
+import { CheckmarkSharp } from 'react-ionicons';
+import * as dayjs from 'dayjs';
+import { useContext, useEffect, useState } from 'react';
+import UserContext from '../contexts/UserContext';
+import { getTodayHabits } from '../service/API';
+import { toggleHabit } from '../service/API';
 
 export default function Today() {
+
+    require('dayjs/locale/pt-br')
+    const date = dayjs().locale('pt-br').format(`dddd, DD/MM`);
+
+    const { user, todayProgress, setTodayProgress, todayHabits, setTodayHabits } = useContext(UserContext);
+
+    useEffect(() => {
+        getTodayHabits(user.token)
+            .then((response) => setTodayHabits(response.data))
+            .catch(() => console.error)
+    }, [user.token]);
+
     return (
         <>
             <Navbar />
                 <main>
-                    <Date>Segunda, 17/05</Date>
-                    <Progress>Nenhum hábito concluído ainda</Progress>
-                    <Habit>
-                        <TextInfo>
-                            <Title>Ler 1 capítulo de livro</Title>
-                            <Sequence>Sequência atual: 3 dias</Sequence>
-                            <Record>Seu recorde: 5 dias</Record>
-                        </TextInfo>
-                        <Check>
-                            <Checkbox
-                                color={'#ebebeb'} 
-                                height="69px"
-                                width="69px"
-                                />
-                        </Check>
-                    </Habit>
-                    <Habit>
-                        <TextInfo>
-                            <Title>Ler 1 capítulo de livro</Title>
-                            <Sequence>Sequência atual: 3 dias</Sequence>
-                            <Record>Seu recorde: 5 dias</Record>
-                        </TextInfo>
-                        <Check>
-                            <Checkbox
-                                color={'#ebebeb'} 
-                                height="69px"
-                                width="69px"
-                                />
-                        </Check>
-                    </Habit>
-                    <Habit>
-                        <TextInfo>
-                            <Title>Ler 1 capítulo de livro</Title>
-                            <Sequence>Sequência atual: 3 dias</Sequence>
-                            <Record>Seu recorde: 5 dias</Record>
-                        </TextInfo>
-                        <Check>
-                            <Checkbox
-                                color={'#ebebeb'} 
-                                height="69px"
-                                width="69px"
-                                />
-                        </Check>
-                    </Habit>
+                    <Date>{date}</Date>
+                    <Progress>{todayProgress === 0 ? 'Nenhum hábito concluído ainda' : ((todayProgress/todayHabits.length) * 100).toFixed(0) + '% dos hábitos concluídos'}</Progress>
+                    {todayHabits.map((habit, index) =>
+                        <TodayHabit
+                            key={index}
+                            user={user}
+                            id={habit.id}
+                            name={habit.name}
+                            status={habit.done}
+                            habitCurrent={habit.currentSequence}
+                            habitRecord={habit.highestSequence}
+                            todayProgress={todayProgress}
+                            setTodayProgress={setTodayProgress}
+                            toggleHabit={toggleHabit}
+                        />)}
                 </main>
             <Menu />
         </>
+    );
+}
+
+function TodayHabit({ user, id, name, status, habitCurrent, habitRecord, todayProgress, setTodayProgress, toggleHabit }) {
+
+    const [done, setDone] = useState(status);
+    const [current, setCurrent] = useState(habitCurrent);
+    const [record, setRecord] = useState(habitRecord);
+
+    function check() {
+        setTodayProgress(todayProgress + 1);
+        if (current === record) {
+            setRecord(record + 1);
+        }
+        setCurrent(current + 1);
+    }
+
+    function uncheck() {
+        setTodayProgress(todayProgress - 1);
+        setCurrent(current - 1);
+        setRecord(record - 1);
+    }
+
+    function toggleStatus() {
+        if (!done) {
+            toggleHabit(user.token, id, 'check');
+            setDone(true);
+            check();
+        } else {
+            toggleHabit(user.token, id, 'uncheck');
+            setDone(false);
+            uncheck();
+        }
+    }
+
+    return (
+        <Habit>
+            <TextInfo>
+                <Title>{name}</Title>
+                <Sequence state={done ? true : false}><SubtitleInfo>Sequência atual:</SubtitleInfo> {current} {current > 1 ? 'dias' : 'dia'}</Sequence>
+                <Record state={current === record && record !== 0 ? true : false}><SubtitleInfo>Seu recorde:</SubtitleInfo> {record} {record > 1 ? 'dias' : 'dia'}</Record>
+            </TextInfo>
+            <Check state={done} onClick={toggleStatus}>
+                <CheckmarkSharp
+                    color="#ffffff"
+                    height="35px"
+                    width="28px"
+                    />
+            </Check>
+        </Habit>
     );
 }
 
@@ -80,6 +118,7 @@ const Habit = styled.div`
 `;
 
 const TextInfo = styled.div`
+    width: calc(100% - 90px);
     display: flex;
     flex-direction: column;
 `;
@@ -90,17 +129,28 @@ const Title = styled.h3`
     margin-bottom: 15px;
 `;
 
-const Sequence = styled.p`
+const SubtitleInfo = styled.span`
     font-size: 13px;
     color: #666666;
 `;
 
+const Sequence = styled.p`
+    font-size: 13px;
+    color: ${props => props.state ? '#8fc549' : '#666666'};
+`;
+
 const Record = styled.p`
     font-size: 13px;
-    color: #666666;
+    color: ${props => props.state ? '#8fc549' : '#666666'};
 `;
 
 const Check = styled.div`
     width: 69px;
     height: 69px;
+    background-color: ${props => props.state ? '#8fc549' : '#ebebeb'};
+    border: ${props => props.state ? 'none' : '1px solid #e7e7e7'};
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;

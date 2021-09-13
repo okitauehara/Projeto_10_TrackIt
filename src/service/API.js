@@ -42,10 +42,32 @@ function deleteHabit(token, id) {
     return promise;
 }
 
+function getTodayHabits(token) {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const promise = axios.get(`${URL_BASE}/habits/today`, config);
+    return promise;
+}
+
+function toggleHabit(token, id, status) {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const promise = axios.post(`${URL_BASE}/habits/${id}/${status}`, {}, config);
+    return promise;
+}
+
 export {
     postSignUp,
     postLogin,
     getUserHabits,
     postHabit,
     deleteHabit,
+    getTodayHabits,
+    toggleHabit,
 }

@@ -4,7 +4,7 @@ import UserContext from "../contexts/UserContext";
 
 export default function Navbar() {
 
-    const user = useContext(UserContext);
+    const { user } = useContext(UserContext);
 
     return (
         <Header>

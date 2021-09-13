@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 
 export default function HabitsList({ habits, setHabits }) {
 
-    const user = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const weekdays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
 
     return (
@@ -38,7 +38,8 @@ function Habit ({ habits, setHabits, weekdays, user, deleteHabit, name, selected
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Sim'
+            confirmButtonText: 'Sim',
+            cancelButtonText: 'Não',
           }).then((result) => {
             if (result.isConfirmed) {
                 let removed = habits.indexOf(habits[check]);
