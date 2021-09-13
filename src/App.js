@@ -1,10 +1,10 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useState } from 'react';
-import Login from './components/Login';
-import SignUp from './components/SignUp';
-import Today from './components/Today';
-import Habits from './components/Habits';
-import History from './components/History';
+import Login from './components/pages/Login/Login';
+import SignUp from './components/pages/SignUp/SignUp';
+import Today from './components/pages/Today/Today';
+import Habits from './components/pages/Habits/Habits';
+import History from './components/pages/History/History';
 import UserContext from './contexts/UserContext';
 
 export default function App() {

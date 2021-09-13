@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { TrashOutline } from 'react-ionicons';
-import { deleteHabit } from "../service/API";
-import UserContext from "../contexts/UserContext";
+import { deleteHabit } from "../../../service/API";
+import UserContext from "../../../contexts/UserContext";
 import { useContext } from "react";
 import Swal from "sweetalert2";
 

@@ -1,12 +1,12 @@
-import Navbar from './Navbar';
-import Menu from './Menu';
+import Navbar from '../../shared/Navbar';
+import Menu from '../../shared/Menu';
 import styled from "styled-components";
 import { CheckmarkSharp } from 'react-ionicons';
 import * as dayjs from 'dayjs';
 import { useContext, useEffect, useState } from 'react';
-import UserContext from '../contexts/UserContext';
-import { getTodayHabits } from '../service/API';
-import { toggleHabit } from '../service/API';
+import UserContext from '../../../contexts/UserContext';
+import { getTodayHabits } from '../../../service/API';
+import { toggleHabit } from '../../../service/API';
 
 export default function Today() {
 
@@ -19,7 +19,7 @@ export default function Today() {
         getTodayHabits(user.token)
             .then((response) => setTodayHabits(response.data))
             .catch(() => console.error)
-    }, [user.token]);
+    }, [user.token, setTodayHabits, todayHabits]);
 
     function calcPercentage () {
         const progress = todayHabits.filter(habit => habit.done).length;
@@ -33,7 +33,7 @@ export default function Today() {
             <Navbar />
                 <main>
                     <Date>{date}</Date>
-                    <Progress>{todayHabits.filter(habit => habit.done).length === 0 ? 'Nenhum hábito concluído ainda' : `${calcPercentage()}% dos hábitos concluídos`}</Progress>
+                    <Progress state={todayHabits.filter(habit => habit.done).length === 0}>{todayHabits.filter(habit => habit.done).length === 0 ? 'Nenhum hábito concluído ainda' : `${calcPercentage()}% dos hábitos concluídos`}</Progress>
                     {todayHabits.map((habit, index) =>
                         <TodayHabit
                             key={index}
@@ -52,8 +52,6 @@ export default function Today() {
 }
 
 function TodayHabit({ user, id, name, status, habitCurrent, habitRecord, toggleHabit }) {
-
-    const { setTodayHabits } = useContext(UserContext);
 
     const [done, setDone] = useState(status);
     const [current, setCurrent] = useState(habitCurrent);
@@ -81,9 +79,6 @@ function TodayHabit({ user, id, name, status, habitCurrent, habitRecord, toggleH
             setDone(false);
             uncheck();
         }
-        getTodayHabits(user.token)
-            .then((response) => setTodayHabits(response.data))
-            .catch(() => console.error)
     }
 
     return (
@@ -112,7 +107,7 @@ const Date = styled.h1`
 
 const Progress = styled.h2`
     font-size: 18px;
-    color: #bababa;
+    color: ${props => props.state ? '#bababa' : '#8fc549'};
     margin-bottom: 30px;
 `;
 

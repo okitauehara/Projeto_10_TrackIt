@@ -1,4 +1,4 @@
-import { postSignUp } from '../service/API'
+import { postSignUp } from '../../../service/API'
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 import { useState } from 'react';
@@ -15,7 +15,8 @@ export default function SignUp() {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
 
-    function submitSignUp() {
+    function submitSignUp(event) {
+        event.preventDefault();
         setLoading(true)
         const body = {
             email,
@@ -24,9 +25,14 @@ export default function SignUp() {
             password,
         }
 
-
         postSignUp(body)
-            .then(() => history.push('/'))
+            .then(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso!',
+                    text: 'O usuário foi cadastrado',
+                  })
+                history.push('/')})
             .catch(() => {
                 setLoading(false)
                 Swal.fire({
@@ -37,13 +43,13 @@ export default function SignUp() {
     }
 
     return (
-        <SignUpPage>
+        <SignUpPage onSubmit={submitSignUp}>
             <Logo src='https://i.ibb.co/hR0Xgyx/logo.png' alt='Logo TrackIt'></Logo>
-            <Input state={loading} type='text' placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)}></Input>
+            <Input state={loading} type='email' placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)}></Input>
             <Input state={loading} type='password' placeholder='senha' value={password} onChange={(e) => setPassword(e.target.value)}></Input>
             <Input state={loading} type='text' placeholder='nome' value={name} onChange={(e) => setName(e.target.value)}></Input>
-            <Input state={loading} type='text' placeholder='foto' value={image} onChange={(e) => setImage(e.target.value)}></Input>
-            {!loading ? <Submit onClick={submitSignUp}>Cadastrar</Submit> : <Submit><Loader type="ThreeDots" color="#ffffff" height={60} width={60} /></Submit>}
+            <Input state={loading} type='url' placeholder='foto' value={image} onChange={(e) => setImage(e.target.value)}></Input>
+            {!loading ? <Submit state={loading}>Cadastrar</Submit> : <Submit state={loading}><Loader type="ThreeDots" color="#ffffff" height={60} width={60} /></Submit>}
             <LoginText>
                 <Link to='/' style={{color: '#52b6ff'}}>
                     Já tem uma conta? Faça login
@@ -53,7 +59,7 @@ export default function SignUp() {
     );
 }
 
-const SignUpPage = styled.section`
+const SignUpPage = styled.form`
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -102,8 +108,8 @@ const Submit = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
-    opacity: ${props => props.onClick === undefined ? '0.7' : '1'};
-    pointer-events: ${props => props.onClick === undefined ? 'none' : 'all'};
+    opacity: ${props => props.state === undefined ? '0.7' : '1'};
+    pointer-events: ${props => props.state === undefined ? 'none' : 'all'};
 `;
 
 const LoginText = styled.p`

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import 'react-circular-progressbar/dist/styles.css';
 import styled from 'styled-components';
 import { useContext } from 'react';
-import UserContext from '../contexts/UserContext';
+import UserContext from '../../contexts/UserContext';
 
 export default function Menu() {
 

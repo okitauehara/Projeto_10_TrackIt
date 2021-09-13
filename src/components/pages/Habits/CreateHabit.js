@@ -1,8 +1,8 @@
 import { useState, useContext } from "react";
 import styled from "styled-components";
-import { getUserHabits, postHabit } from "../service/API";
+import { getUserHabits, postHabit } from "../../../service/API";
 import Loader from "react-loader-spinner";
-import UserContext from "../contexts/UserContext";
+import UserContext from "../../../contexts/UserContext";
 import Swal from "sweetalert2";
 
 export default function CreateHabit({ weekdays, container, setContainer, setHabits }) {

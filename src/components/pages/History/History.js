@@ -1,5 +1,5 @@
-import Navbar from './Navbar';
-import Menu from './Menu';
+import Navbar from '../../shared/Navbar';
+import Menu from '../../shared/Menu';
 import styled from "styled-components";
 
 export default function History() {

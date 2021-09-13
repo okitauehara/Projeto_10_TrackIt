@@ -1,4 +1,4 @@
-import { postLogin } from "../service/API";
+import { postLogin } from "../../../service/API";
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 import { useState } from "react";
@@ -13,7 +13,8 @@ export default function Login({ setUser }) {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
 
-    function submitLogin() {
+    function submitLogin(event) {
+        event.preventDefault();
         setLoading(true);
         const body = {
             email,
@@ -34,11 +35,11 @@ export default function Login({ setUser }) {
     }
 
     return (
-        <LoginPage>
+        <LoginPage onSubmit={submitLogin}>
             <Logo src='https://i.ibb.co/hR0Xgyx/logo.png' alt='Logo TrackIt'></Logo>
-            <Input state={loading} type='text' placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)}></Input>
+            <Input state={loading} type='email' placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)}></Input>
             <Input state={loading} type='password' placeholder='senha' value={password} onChange={(e) => setPassword(e.target.value)}></Input>
-            {!loading ? <Submit onClick={submitLogin}>Entrar</Submit> : <Submit><Loader type="ThreeDots" color="#ffffff" height={60} width={60} /></Submit>}
+            {!loading ? <Submit state={loading}>Entrar</Submit> : <Submit state={loading}><Loader type="ThreeDots" color="#ffffff" height={60} width={60} /></Submit>}
             <SignUpText>
                 <Link to='/cadastro' style={{color: '#52b6ff'}}>
                     Não tem uma conta? Cadastre-se
@@ -48,7 +49,7 @@ export default function Login({ setUser }) {
     );
 }
 
-const LoginPage = styled.section`
+const LoginPage = styled.form`
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -97,8 +98,8 @@ const Submit = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
-    opacity: ${props => props.onClick === undefined ? '0.7' : '1'};
-    pointer-events: ${props => props.onClick === undefined ? 'none' : 'all'};
+    opacity: ${props => props.state === undefined ? '0.7' : '1'};
+    pointer-events: ${props => props.state === undefined ? 'none' : 'all'};
 `;
 
 const SignUpText = styled.p`

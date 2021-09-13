@@ -1,9 +1,9 @@
-import Navbar from './Navbar';
-import Menu from './Menu';
+import Navbar from '../../shared/Navbar';
+import Menu from '../../shared/Menu';
 import styled from "styled-components";
-import UserContext from '../contexts/UserContext';
+import UserContext from '../../../contexts/UserContext';
 import { useContext, useEffect, useState } from 'react';
-import { getUserHabits } from '../service/API';
+import { getUserHabits } from '../../../service/API';
 import CreateHabit from './CreateHabit';
 import HabitsList from './HabitsList';
 
