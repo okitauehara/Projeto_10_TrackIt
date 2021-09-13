@@ -4,6 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useState } from "react";
 import Loader from "react-loader-spinner";
 import Swal from 'sweetalert2'
+import logo from '../../../assets/logo.png'
 
 export default function Login({ setUser }) {
 
@@ -36,7 +37,7 @@ export default function Login({ setUser }) {
 
     return (
         <LoginPage onSubmit={submitLogin}>
-            <Logo src='https://i.ibb.co/hR0Xgyx/logo.png' alt='Logo TrackIt'></Logo>
+            <Logo src={logo} alt='Logo TrackIt'></Logo>
             <Input state={loading} type='email' placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)}></Input>
             <Input state={loading} type='password' placeholder='senha' value={password} onChange={(e) => setPassword(e.target.value)}></Input>
             {!loading ? <Submit state={loading}>Entrar</Submit> : <Submit state={loading}><Loader type="ThreeDots" color="#ffffff" height={60} width={60} /></Submit>}
