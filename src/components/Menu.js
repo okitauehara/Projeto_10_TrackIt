@@ -7,7 +7,14 @@ import UserContext from '../contexts/UserContext';
 
 export default function Menu() {
 
-    const { todayProgress, todayHabits } = useContext(UserContext);
+    const { todayHabits } = useContext(UserContext);
+
+    function calcPercentage () {
+        const progress = todayHabits.filter(habit => habit.done).length;
+        const totalHabits = todayHabits.length;
+
+        return ((progress/totalHabits) * 100).toFixed(0);
+    }
 
     return (
         <Footer>
@@ -19,7 +26,7 @@ export default function Menu() {
             <Today>
                 <Link to='/hoje' style={{textDecoration: 'none'}}>
                     <CircularProgressbar
-                    value= {todayHabits !== 0 ? ((todayProgress/todayHabits.length) * 100).toFixed(0) : '0'}
+                    value= {todayHabits.length !== 0 ? calcPercentage() : '0'}
                     text= "Hoje"
                     background
                     backgroundPadding={6}

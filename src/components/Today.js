@@ -13,7 +13,7 @@ export default function Today() {
     require('dayjs/locale/pt-br')
     const date = dayjs().locale('pt-br').format(`dddd, DD/MM`);
 
-    const { user, todayProgress, setTodayProgress, todayHabits, setTodayHabits } = useContext(UserContext);
+    const { user, todayHabits, setTodayHabits } = useContext(UserContext);
 
     useEffect(() => {
         getTodayHabits(user.token)
@@ -21,12 +21,19 @@ export default function Today() {
             .catch(() => console.error)
     }, [user.token]);
 
+    function calcPercentage () {
+        const progress = todayHabits.filter(habit => habit.done).length;
+        const totalHabits = todayHabits.length;
+
+        return ((progress/totalHabits) * 100).toFixed(0);
+    }
+
     return (
         <>
             <Navbar />
                 <main>
                     <Date>{date}</Date>
-                    <Progress>{todayProgress === 0 ? 'Nenhum hábito concluído ainda' : ((todayProgress/todayHabits.length) * 100).toFixed(0) + '% dos hábitos concluídos'}</Progress>
+                    <Progress>{todayHabits.filter(habit => habit.done).length === 0 ? 'Nenhum hábito concluído ainda' : `${calcPercentage()}% dos hábitos concluídos`}</Progress>
                     {todayHabits.map((habit, index) =>
                         <TodayHabit
                             key={index}
@@ -36,8 +43,6 @@ export default function Today() {
                             status={habit.done}
                             habitCurrent={habit.currentSequence}
                             habitRecord={habit.highestSequence}
-                            todayProgress={todayProgress}
-                            setTodayProgress={setTodayProgress}
                             toggleHabit={toggleHabit}
                         />)}
                 </main>
@@ -46,14 +51,15 @@ export default function Today() {
     );
 }
 
-function TodayHabit({ user, id, name, status, habitCurrent, habitRecord, todayProgress, setTodayProgress, toggleHabit }) {
+function TodayHabit({ user, id, name, status, habitCurrent, habitRecord, toggleHabit }) {
+
+    const { setTodayHabits } = useContext(UserContext);
 
     const [done, setDone] = useState(status);
     const [current, setCurrent] = useState(habitCurrent);
     const [record, setRecord] = useState(habitRecord);
 
     function check() {
-        setTodayProgress(todayProgress + 1);
         if (current === record) {
             setRecord(record + 1);
         }
@@ -61,7 +67,6 @@ function TodayHabit({ user, id, name, status, habitCurrent, habitRecord, todayPr
     }
 
     function uncheck() {
-        setTodayProgress(todayProgress - 1);
         setCurrent(current - 1);
         setRecord(record - 1);
     }
@@ -76,6 +81,9 @@ function TodayHabit({ user, id, name, status, habitCurrent, habitRecord, todayPr
             setDone(false);
             uncheck();
         }
+        getTodayHabits(user.token)
+            .then((response) => setTodayHabits(response.data))
+            .catch(() => console.error)
     }
 
     return (
